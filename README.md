@@ -1,113 +1,111 @@
-# Ingeniería de Soluciones con Inteligencia Artificial
+# 🚢 Asistente de Normativas Portuarias EPV
+## ISY0101 – Ingeniería de Soluciones con IA | DuocUC 2025
 
-Este repositorio contiene todos los materiales, ejemplos y prácticas del curso **Ingeniería de Soluciones con Inteligencia Artificial**. El curso está organizado en tres grandes módulos (RA), cada uno con submódulos (IL) y ejemplos prácticos en Python y Jupyter.
-
-# IMPORTANTE
-Langchain liberó su versión 1.0 oficialmente (Link: https://github.com/davila7/Ingenier-a-de-Soluciones-con-Inteligencia-Artificial) 
-Posiblemente algunos bloques de código queden deprecados. Se estará haciendo la mantención del código, pero te recomiendo que revises que las nuevas características de la librería estén utilizando la versión correspondiente.
+Chatbot basado en LLM y RAG que permite a trabajadores del Puerto de Valparaíso consultar normativas operacionales y de seguridad en lenguaje natural, con respuestas citadas por fuente documental.
 
 ---
 
-## 📚 Descripción General
-
-El curso cubre desde los fundamentos de la IA generativa y el prompt engineering, hasta el desarrollo de agentes inteligentes y las mejores prácticas para llevar soluciones a producción, incluyendo observabilidad, seguridad y ética.
-
-- **Nivel:** Intermedio
-- **Modalidad:** Práctica y conceptual
-- **Requisitos:** Python básico, interés en IA
+## Requisitos previos
+- Python 3.11+
+- Cuenta GitHub con token Models habilitado → [github.com/marketplace/models](https://github.com/marketplace/models)
 
 ---
 
-## 🏗️ Estructura del Proyecto
+## Instalación
 
-```
-RA1/  # Fundamentos de IA Generativa y Prompt Engineering
-  IL1.1/  # Introducción a LLMs y APIs
-  IL1.2/  # Técnicas de prompting
-  IL1.3/  # Infraestructura RAG
-  IL1.4/  # Evaluación y optimización
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/PhamNukz/Ingenier-a-de-Soluciones-con-Inteligencia-Artificial
+cd Ingenier-a-de-Soluciones-con-Inteligencia-Artificial
 
-RA2/  # Desarrollo de Agentes Inteligentes
-  IL2.1/  # Arquitectura y frameworks (LangChain, CrewAI)
-  IL2.2/  # Memoria y herramientas externas
-  IL2.3/  # Planificación y orquestación
-  IL2.4/  # Documentación técnica y arquitectura
+# 2. Crear y activar entorno virtual
+python -m venv venv
+venv\Scripts\Activate.ps1
 
-RA3/  # Observabilidad, Seguridad y Ética
-  IL3.1/  # Observabilidad y métricas
-  IL3.2/  # Trazabilidad y logs
-  IL3.3/  # Seguridad y ética
-  IL3.4/  # Escalabilidad y sostenibilidad
+# 3. Instalar dependencias
+pip install -r EP1_asistente_portuario/requirements.txt
 ```
 
-Cada subcarpeta IL contiene ejemplos en Python (`.py`), notebooks (`.ipynb`) o guías (`.md`).
+---
+
+## Configuración
+
+Crear archivo `.env` en la **raíz del repositorio** (mismo nivel que este README):
+
+```
+GITHUB_TOKEN=tu_token_aqui
+GITHUB_BASE_URL=https://models.inference.ai.azure.com
+OPENAI_API_KEY=tu_token_aqui
+```
+
+> ⚠️ El `.env` nunca se sube al repositorio. Cada usuario debe crear el suyo con su propio token.
 
 ---
 
-## 🚦 ¿Cómo usar este repositorio?
+## Ejecución
 
-1. **Lee los README.md** de cada carpeta para entender el objetivo de cada módulo.
-2. **Ejecuta los ejemplos Python** en tu entorno local (requiere Python 3.8+ y, para algunos ejemplos, instalar dependencias como `langchain`, `crewai`, `openai`).
-3. **Configura tus variables de entorno** si usas APIs (ver sección de variables en este README).
-4. **Explora los notebooks** para prácticas guiadas y experimentos.
-5. **Consulta los archivos `.md`** para teoría, mejores prácticas y requisitos de cada entrega.
+```bash
+cd EP1_asistente_portuario/src
 
----
+# 1. Indexar documentos (solo la primera vez)
+python indexer.py
 
-## ⚙️ Requisitos y dependencias
+# 2. Lanzar interfaz web
+streamlit run app.py
+```
 
-- Python 3.8+
-- Jupyter Notebook (opcional, para `.ipynb`)
-- Instalar dependencias según el módulo:
-  - `pip install langchain openai crewai` (para agentes y ejemplos avanzados)
-  - Otros: `pandas`, `requests`, etc.
+La interfaz se abre automáticamente en `http://localhost:8501`
 
-### Variables de entorno recomendadas
-- `OPENAI_API_KEY` (para ejemplos con OpenAI/LangChain)
-- `GITHUB_TOKEN` (para ejemplos con GitHub API)
+También se puede usar en modo terminal:
+```bash
+python rag_chain.py
+```
 
 ---
 
-## 🎥 Videotutoriales del Curso
+## Ejemplos de consultas
 
-Para un aprendizaje más visual, puedes seguir la lista de reproducción completa del curso en YouTube:
-
-- [**Ver la lista de reproducción completa en YouTube**](https://www.youtube.com/playlist?list=PL2gz3vdpKdfVHQqH39oPu4mxLrmAUd2eX)
-
----
-
-## 🧭 Navegación recomendada
-
-- **Empieza por RA1** si eres nuevo en IA generativa y prompting.
-- **RA2** es ideal para aprender a construir agentes inteligentes y documentar soluciones.
-- **RA3** te prepara para llevar tus agentes a producción, monitorear, asegurar y escalar.
-- Cada IL tiene ejemplos autocontenidos y README propio.
+- `¿Cuántas horas de descanso hay entre turnos?`
+- `¿Qué EPP necesito para trabajar en la zona de grúas?`
+- `¿Cuál es el protocolo si cae una persona al mar?`
+- `¿Cuántas horas extra puedo trabajar por semana?`
+- `¿Qué hago si hay un derrame de mercancía peligrosa?`
 
 ---
 
-## 📑 Evaluaciones y entregables
+## Estructura del proyecto
 
-- Quizzes teóricos en cada RA
-- Proyectos prácticos y presentaciones
-- Proyecto final transversal (40% de la nota)
-
----
-
-## 📖 Recursos adicionales
-
-- [LangChain Docs](https://python.langchain.com/)
-- [CrewAI Docs](https://docs.crewai.com/)
-- [OpenAI API](https://platform.openai.com/docs/)
-- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-
----
-
-## 📝 Sobre este repositorio
-
-- Inspirado en buenas prácticas de ingeniería y educación en IA.
-- Estructura y progresión pensadas para aprendizaje autónomo y colaborativo.
-- Para dudas, sugerencias o mejoras, abre un issue o pull request.
+```
+EP1_asistente_portuario/
+├── documentos/                          ← PDFs de normativa EPV
+│   ├── reglamento_operaciones_portuarias.pdf
+│   ├── manual_seguridad_epp.pdf
+│   ├── protocolo_emergencias_maritimas.pdf
+│   └── convenio_colectivo_trabajadores.pdf
+├── src/
+│   ├── indexer.py                       ← Carga y vectorización de PDFs
+│   ├── rag_chain.py                     ← Pipeline RAG completo
+│   └── app.py                           ← Interfaz Streamlit
+├── chroma_db/                           ← Generado automáticamente al indexar
+└── requirements.txt
+```
 
 ---
 
-¡Explora, experimenta y aprende a construir soluciones de IA listas para producción!
+## Stack tecnológico
+
+| Componente     | Tecnología                                        |
+|----------------|---------------------------------------------------|
+| LLM            | GPT-4o-mini vía GitHub Models                     |
+| RAG Framework  | LangChain                                         |
+| Vector Store   | ChromaDB (local)                                  |
+| Embeddings     | HuggingFace paraphrase-multilingual-MiniLM-L12-v2 |
+| Frontend       | Streamlit                                         |
+
+---
+
+## Integrantes
+- Estudiante 1
+- Francisco Gómez R.
+
+**DuocUC – Escuela de Informática y Telecomunicaciones | 2025**
