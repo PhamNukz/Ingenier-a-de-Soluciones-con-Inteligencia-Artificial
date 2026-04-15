@@ -2,3 +2,20 @@ node_modules
 dist
 .DS_Store
 .env
+
+# Entorno virtual
+venv/
+
+# Base de datos vectorial
+EP1_asistente_portuario/chroma_db/
+
+# HuggingFace cache
+.cache/
+*.bin
+*.safetensors
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
