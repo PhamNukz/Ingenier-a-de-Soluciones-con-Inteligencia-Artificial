@@ -1,5 +1,5 @@
 # 🚢 Asistente de Normativas Portuarias EPV
-## ISY0101 – Ingeniería de Soluciones con IA | DuocUC 2025
+## ISY0101 – Ingeniería de Soluciones con IA | DuocUC 2026
 
 Chatbot basado en LLM y RAG que permite a trabajadores del Puerto de Valparaíso consultar normativas operacionales y de seguridad en lenguaje natural, con respuestas citadas por fuente documental.
 
@@ -105,7 +105,7 @@ EP1_asistente_portuario/
 ---
 
 ## Integrantes
-- Estudiante 1
+- Benjamin Aravena R.
 - Francisco Gómez R.
 
-**DuocUC – Escuela de Informática y Telecomunicaciones | 2025**
+**DuocUC – Escuela de Informática y Telecomunicaciones | 2026**
