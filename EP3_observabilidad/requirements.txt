@@ -1,0 +1,21 @@
+# ── Stack del agente RAG (heredado de EP2) ────────────────────────────────────
+langchain==0.3.25
+langchain-openai==0.3.19
+langchain-huggingface==0.1.2
+langchain-community==0.3.24
+langchain-chroma==0.2.4
+chromadb>=1.0.9
+python-dotenv==1.0.1
+pypdf==5.4.0
+sentence-transformers==3.3.1
+openai==1.77.0
+tiktoken>=0.7          # respaldo de conteo de tokens si la API no reporta usage
+
+# ── Observabilidad, análisis y dashboard (EP3) ───────────────────────────────
+streamlit==1.44.0
+pandas>=2.2
+plotly>=5.22
+matplotlib>=3.8
+
+# ── Generación del informe (opcional, solo para regenerar el .docx) ──────────
+python-docx>=1.1

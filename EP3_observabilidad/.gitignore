@@ -1,0 +1,13 @@
+# Entorno y secretos (IE6 — la API key nunca se versiona)
+.env
+.venv/
+venv/
+
+# Cachés de Python
+__pycache__/
+*.pyc
+
+# Archivos temporales/lock de Office (Word)
+~$*
+
+# Nota: logs/metricas.jsonl y docs/img/ SÍ se versionan como evidencia de pruebas.

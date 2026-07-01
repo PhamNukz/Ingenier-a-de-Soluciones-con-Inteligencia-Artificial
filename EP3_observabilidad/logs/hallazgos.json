@@ -1,0 +1,99 @@
+{
+  "resumen": {
+    "total_ejecuciones": 36,
+    "exitosas": 20,
+    "con_error": 16,
+    "pasos_promedio": 1.2,
+    "fuente_datos": "real"
+  },
+  "latencia": {
+    "promedio_total_s": 12.512,
+    "mediana_total_s": 9.257,
+    "p95_total_s": 33.704,
+    "p99_total_s": 51.61,
+    "max_total_s": 56.086,
+    "desglose_promedio": {
+      "embedding_s": 0.0309,
+      "retrieval_s": 0.0047,
+      "llm_s": 10.065
+    },
+    "porcentaje_tiempo_por_fase": {
+      "embedding_pct": 0.3,
+      "retrieval_pct": 0.0,
+      "llm_pct": 99.6
+    }
+  },
+  "recursos": {
+    "tokens_promedio_total": 9254,
+    "tokens_promedio_prompt": 8884,
+    "tokens_promedio_completion": 370,
+    "tokens_max_total": 21873,
+    "tokens_acumulados": 185073,
+    "ratio_prompt_completion": 24.0,
+    "consultas_con_tokens": 20,
+    "consultas_tokens_estimados": 20
+  },
+  "errores": {
+    "total_ejecuciones": 36,
+    "total_errores": 16,
+    "tasa_error_global_pct": 44.4,
+    "errores_api": 12,
+    "tasa_error_api_pct": 33.3,
+    "bloqueados_seguridad": 4,
+    "por_tipo": {
+      "excepcion:APIStatusError": 2,
+      "rate_limit_api": 10,
+      "bloqueado_prompt_injection_detectado": 4
+    }
+  },
+  "relevancia_por_categoria": {
+    "en_dominio": {
+      "sim_top_promedio": 0.076,
+      "sim_top_min": 0.053,
+      "n": 22
+    },
+    "ambigua": {
+      "sim_top_promedio": 0.069,
+      "sim_top_min": 0.063,
+      "n": 5
+    },
+    "fuera_dominio": {
+      "sim_top_promedio": 0.039,
+      "sim_top_min": 0.027,
+      "n": 5
+    }
+  },
+  "umbral_relevancia": 0.057,
+  "consistencia": [
+    {
+      "query": "¿Cuáles son los elementos de protección personal obligatorios en el mu",
+      "n_runs": 5,
+      "runs_con_error": 0,
+      "cv_longitud_respuesta_pct": 0.1,
+      "cv_tokens_pct": 55.5,
+      "variacion_latencia_s": 51.79,
+      "pasos_distintos": 3
+    },
+    {
+      "query": "¿Cuál es el protocolo de emergencia ante un derrame de combustible en ",
+      "n_runs": 5,
+      "runs_con_error": 0,
+      "cv_longitud_respuesta_pct": 0.0,
+      "cv_tokens_pct": 32.7,
+      "variacion_latencia_s": 14.62,
+      "pasos_distintos": 2
+    }
+  ],
+  "herramientas_uso": {
+    "consultar_normativa": 23,
+    "evaluar_cumplimiento": 1
+  },
+  "acciones_invalidas": 0,
+  "hallazgos": [
+    "CUELLO DE BOTELLA: la generación con el LLM concentra el 99.6% del tiempo total. El retrieval (embedding+búsqueda) es marginal (0.0%). La optimización de desempeño debe enfocarse en el LLM, no en el RAG.",
+    "PATRÓN DE RELEVANCIA: la similitud media en-dominio (0.076) es ~1.9× la de fuera-dominio (0.039). Lo relevante es la separación relativa, no el valor absoluto (el score deriva de la distancia L2 de ChromaDB). La brecha valida un umbral de rechazo/fallback en torno a 0.057 para descartar consultas no cubiertas por el corpus.",
+    "ANOMALÍA DE LATENCIA (cola larga): el p95 (33.704s) triplica la mediana (9.257s) y el p99 llega a 51.61s. La cola la explican las consultas con más pasos ReAct (más llamadas al LLM) y los 12 fallos de API ({'excepcion:APIStatusError': 2, 'rate_limit_api': 10}). Es el objetivo prioritario para reintentos y timeouts.",
+    "SEGURIDAD: se bloquearon 4 consultas adversariales (prompt injection / extracción de credenciales) antes de llegar al agente, sin consumir tokens. La capa de seguridad (IE6) opera correctamente.",
+    "CONSISTENCIA: ante la misma consulta repetida, la longitud de respuesta varía hasta un 0.1% (CV) en las corridas exitosas, mientras los chunks recuperados se mantienen estables (embeddings deterministas). La variabilidad proviene del LLM (temperature>0), no del retrieval."
+  ]
+}
