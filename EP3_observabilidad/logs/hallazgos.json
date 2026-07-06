@@ -1,48 +1,47 @@
 {
   "resumen": {
     "total_ejecuciones": 36,
-    "exitosas": 20,
-    "con_error": 16,
-    "pasos_promedio": 1.2,
+    "exitosas": 30,
+    "con_error": 6,
+    "pasos_promedio": 1.47,
     "fuente_datos": "real"
   },
   "latencia": {
-    "promedio_total_s": 12.512,
-    "mediana_total_s": 9.257,
-    "p95_total_s": 33.704,
-    "p99_total_s": 51.61,
-    "max_total_s": 56.086,
+    "promedio_total_s": 13.036,
+    "mediana_total_s": 6.757,
+    "p95_total_s": 37.551,
+    "p99_total_s": 95.206,
+    "max_total_s": 117.334,
     "desglose_promedio": {
-      "embedding_s": 0.0309,
-      "retrieval_s": 0.0047,
-      "llm_s": 10.065
+      "embedding_s": 0.0383,
+      "retrieval_s": 0.0044,
+      "llm_s": 8.934
     },
     "porcentaje_tiempo_por_fase": {
-      "embedding_pct": 0.3,
+      "embedding_pct": 0.4,
       "retrieval_pct": 0.0,
-      "llm_pct": 99.6
+      "llm_pct": 99.5
     }
   },
   "recursos": {
-    "tokens_promedio_total": 9254,
-    "tokens_promedio_prompt": 8884,
-    "tokens_promedio_completion": 370,
-    "tokens_max_total": 21873,
-    "tokens_acumulados": 185073,
-    "ratio_prompt_completion": 24.0,
-    "consultas_con_tokens": 20,
-    "consultas_tokens_estimados": 20
+    "tokens_promedio_total": 9959,
+    "tokens_promedio_prompt": 9607,
+    "tokens_promedio_completion": 352,
+    "tokens_max_total": 26345,
+    "tokens_acumulados": 298759,
+    "ratio_prompt_completion": 27.3,
+    "consultas_con_tokens": 30,
+    "consultas_tokens_estimados": 30
   },
   "errores": {
     "total_ejecuciones": 36,
-    "total_errores": 16,
-    "tasa_error_global_pct": 44.4,
-    "errores_api": 12,
-    "tasa_error_api_pct": 33.3,
+    "total_errores": 6,
+    "tasa_error_global_pct": 16.7,
+    "errores_api": 2,
+    "tasa_error_api_pct": 5.6,
     "bloqueados_seguridad": 4,
     "por_tipo": {
       "excepcion:APIStatusError": 2,
-      "rate_limit_api": 10,
       "bloqueado_prompt_injection_detectado": 4
     }
   },
@@ -69,18 +68,18 @@
       "query": "¿Cuáles son los elementos de protección personal obligatorios en el mu",
       "n_runs": 5,
       "runs_con_error": 0,
-      "cv_longitud_respuesta_pct": 0.1,
-      "cv_tokens_pct": 55.5,
-      "variacion_latencia_s": 51.79,
-      "pasos_distintos": 3
+      "cv_longitud_respuesta_pct": 0.0,
+      "cv_tokens_pct": 9.2,
+      "variacion_latencia_s": 114.41,
+      "pasos_distintos": 1
     },
     {
       "query": "¿Cuál es el protocolo de emergencia ante un derrame de combustible en ",
       "n_runs": 5,
       "runs_con_error": 0,
       "cv_longitud_respuesta_pct": 0.0,
-      "cv_tokens_pct": 32.7,
-      "variacion_latencia_s": 14.62,
+      "cv_tokens_pct": 21.8,
+      "variacion_latencia_s": 19.78,
       "pasos_distintos": 2
     }
   ],
@@ -88,12 +87,13 @@
     "consultar_normativa": 23,
     "evaluar_cumplimiento": 1
   },
-  "acciones_invalidas": 0,
+  "acciones_invalidas": 20,
   "hallazgos": [
-    "CUELLO DE BOTELLA: la generación con el LLM concentra el 99.6% del tiempo total. El retrieval (embedding+búsqueda) es marginal (0.0%). La optimización de desempeño debe enfocarse en el LLM, no en el RAG.",
+    "CUELLO DE BOTELLA: la generación con el LLM concentra el 99.5% del tiempo total. El retrieval (embedding+búsqueda) es marginal (0.0%). La optimización de desempeño debe enfocarse en el LLM, no en el RAG.",
     "PATRÓN DE RELEVANCIA: la similitud media en-dominio (0.076) es ~1.9× la de fuera-dominio (0.039). Lo relevante es la separación relativa, no el valor absoluto (el score deriva de la distancia L2 de ChromaDB). La brecha valida un umbral de rechazo/fallback en torno a 0.057 para descartar consultas no cubiertas por el corpus.",
-    "ANOMALÍA DE LATENCIA (cola larga): el p95 (33.704s) triplica la mediana (9.257s) y el p99 llega a 51.61s. La cola la explican las consultas con más pasos ReAct (más llamadas al LLM) y los 12 fallos de API ({'excepcion:APIStatusError': 2, 'rate_limit_api': 10}). Es el objetivo prioritario para reintentos y timeouts.",
+    "ANOMALÍA DE LATENCIA (cola larga): el p95 (37.551s) triplica la mediana (6.757s) y el p99 llega a 95.206s. La cola la explican las consultas con más pasos ReAct (más llamadas al LLM) y los 2 fallos de API ({'excepcion:APIStatusError': 2}). Es el objetivo prioritario para reintentos y timeouts.",
     "SEGURIDAD: se bloquearon 4 consultas adversariales (prompt injection / extracción de credenciales) antes de llegar al agente, sin consumir tokens. La capa de seguridad (IE6) opera correctamente.",
-    "CONSISTENCIA: ante la misma consulta repetida, la longitud de respuesta varía hasta un 0.1% (CV) en las corridas exitosas, mientras los chunks recuperados se mantienen estables (embeddings deterministas). La variabilidad proviene del LLM (temperature>0), no del retrieval."
+    "FIABILIDAD DEL AGENTE: se registraron 20 acciones inválidas (parse-errors del formato ReAct: el LLM emitió texto en vez de un nombre de herramienta), recuperadas por handle_parsing_errors. Ocurren sobre todo en consultas ambiguas y son un objetivo de mejora del prompt (IE4).",
+    "CONSISTENCIA: ante la misma consulta repetida, la longitud de respuesta varía hasta un 0.0% (CV) en las corridas exitosas, mientras los chunks recuperados se mantienen estables (embeddings deterministas). La variabilidad proviene del LLM (temperature>0), no del retrieval."
   ]
 }

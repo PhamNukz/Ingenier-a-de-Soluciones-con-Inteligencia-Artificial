@@ -73,6 +73,9 @@ def evaluar_cumplimiento(situacion: str) -> str:
             api_key=os.getenv("GITHUB_TOKEN"),
             base_url=os.getenv("GITHUB_BASE_URL"),
             temperature=0.1,
+            # Mejora EP3→EFT: backoff ante rate-limit (429) del free tier
+            max_retries=5,
+            timeout=45,
         )
 
         chain = PROMPT_EVALUACION | llm

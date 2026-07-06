@@ -103,6 +103,10 @@ def obtener_agente() -> AgentExecutor:
             api_key=os.getenv("GITHUB_TOKEN"),
             base_url=os.getenv("GITHUB_BASE_URL"),
             temperature=0.2,
+            # Mejora EP3→EFT: reintentos con backoff exponencial (SDK OpenAI) ante
+            # 429/503 del free tier, y timeout para cortar la cola de latencia p95.
+            max_retries=5,
+            timeout=45,
         )
 
         herramientas = [
