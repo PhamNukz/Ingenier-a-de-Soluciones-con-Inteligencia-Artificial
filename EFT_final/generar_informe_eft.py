@@ -181,6 +181,10 @@ def construir():
         f"similitud separa consultas en-dominio (0.076) de fuera-de-dominio (0.039), validando un "
         f"umbral de relevancia de {antes.get('umbral_relevancia', 0.057)} para detectar consultas no "
         f"cubiertas por el corpus.")
+    imagen_local(doc, os.path.join(IMG_EP3, "02_desglose_latencia.png"),
+                 "Figura 2. Desglose de latencia por fase: la generación LLM domina el tiempo.", 14.0)
+    imagen_local(doc, os.path.join(IMG_EP3, "05_similitud_categoria.png"),
+                 "Figura 3. Score de similitud por categoría: separación en/fuera de dominio y umbral.", 14.0)
 
     parrafo(doc, "4.2 Análisis de registros y mejora implementada (IE10, IE12)", size=10.5).runs[0].bold = True
     parrafo(doc,
@@ -199,6 +203,8 @@ def construir():
             ["Latencia p95", fila_metricas(antes)[3], fila_metricas(despues)[3]],
             ["Latencia p99", fila_metricas(antes)[4], fila_metricas(despues)[4]],
         ])
+    imagen_local(doc, os.path.join(_EFT, "antes_despues_backoff.png"),
+                 "Figura 4. Efecto del backoff en la tasa de error de API y en las latencias.", 15.0)
     parrafo(doc,
         "Interpretación: la tasa de error de API cayó de 33.3% a 5.6% (6× menos fallas; los 10 "
         "rate-limit desaparecieron) y la mediana mejoró de 9.3 s a 6.8 s. Como contraparte, la cola "
