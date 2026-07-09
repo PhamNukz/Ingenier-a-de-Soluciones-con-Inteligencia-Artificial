@@ -281,6 +281,8 @@ def medir_consulta(
 
     # 4. EJECUCIÓN DEL AGENTE con callback de tokens/latencia LLM (IE2)
     handler = MetricasCallbackHandler()
+    respuesta = ""
+    pasos = []
     try:
         sys.path.append(_EP2_SRC)
         from agent import obtener_agente  # type: ignore
@@ -340,6 +342,11 @@ def medir_consulta(
 
     if persistir:
         registrar_metricas(registro)
+
+    # Campos ephemeros para el llamador (UI del chat) — no se persisten en el
+    # log para no romper el esquema plano que lee el dashboard.
+    registro["respuesta"] = respuesta
+    registro["pasos"] = pasos
 
     return registro
 

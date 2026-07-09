@@ -106,7 +106,7 @@ def sanitizar_input(consulta: str) -> ResultadoSanitizacion:
 # Patrones de datos personales chilenos / sensibles que NO deben quedar en claro
 # dentro de los registros de observabilidad.
 _PATRONES_PII = [
-    (re.compile(r"\b\d{1,2}\.\d{3}\.\d{3}-[\dkK]\b"), "[RUT]"),          # RUT chileno
+    (re.compile(r"\b\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]\b"), "[RUT]"),        # RUT chileno (con o sin puntos)
     (re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.-]+\b"), "[EMAIL]"),            # email
     (re.compile(r"\b(\+?56)?\s?9\s?\d{4}\s?\d{4}\b"), "[TELEFONO]"),     # celular CL
     (re.compile(r"\b\d{16}\b"), "[TARJETA]"),                            # nº tarjeta

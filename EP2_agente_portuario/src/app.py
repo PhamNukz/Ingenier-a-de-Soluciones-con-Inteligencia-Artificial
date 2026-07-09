@@ -8,9 +8,11 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(__file__))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "EP3_observabilidad", "src"))
 
 import streamlit as st
-from agent import ejecutar_agente, reiniciar_agente
+from agent import reiniciar_agente
+from observabilidad.instrumentacion import medir_consulta
 
 # ──────────────────────────────────────────────────────────────────────────────
 # CONFIGURACIÓN DE LA PÁGINA
@@ -161,9 +163,12 @@ with col_chat:
         # Ejecutar agente
         with st.spinner("🤔 El agente está razonando y seleccionando herramientas..."):
             try:
-                resultado = ejecutar_agente(consulta_input)
-                respuesta = resultado.get("output", "No se pudo obtener una respuesta.")
-                pasos = resultado.get("intermediate_steps", [])
+                resultado = medir_consulta(consulta_input, categoria="chat_real")
+                if resultado.get("error"):
+                    respuesta = f"⚠ Consulta bloqueada o fallida ({resultado.get('tipo_error')})"
+                else:
+                    respuesta = resultado.get("respuesta") or "No se pudo obtener una respuesta."
+                pasos = resultado.get("pasos", [])
             except Exception as e:
                 respuesta = f"⚠ Error al ejecutar el agente: {str(e)}"
                 pasos = []
